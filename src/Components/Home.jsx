@@ -19,12 +19,10 @@ const Component = styled(Box)`
 
 const Home = () => {
     const { banners, categories, popular_products, products } = useSelector(state => state?.getProducts?.products);
-    console.log('productsss==>>>>', popular_products)
 
     const dispatch = useDispatch();
 
     useEffect(() => {
-        console.log('useEffect calledddd');
         dispatch(listProducts())
     }, [dispatch])
 

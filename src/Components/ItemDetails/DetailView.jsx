@@ -22,13 +22,17 @@ const Container = styled(Grid)(({ theme }) => ({
         margin: 0
     }
 }))
-
-const RightContainer = styled(Grid)`
-    margin-top: 50px;
-    & > p {
-        margin-top: 10px;
+const RightContainer = styled(Grid)(({ theme }) => ({
+    marginTop: '50px',
+    '& > p': {
+        marginTop: '10px',
+    },
+    [theme.breakpoints.down('sm')]: {
+       textAlign:'center'
     }
-`;
+}))
+
+
 
 const DetailView = () => {
     const fassured = 'https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/fa_62673a.png'
@@ -40,9 +44,10 @@ const DetailView = () => {
     const dispatch = useDispatch();
     
     useEffect(() => {
-        if(product && id !== product.id)   
             dispatch(getProductDetails(id));
-    }, [dispatch, product, id, loading]);
+            console.log('product id==>>>',id)
+    }, [dispatch, id]);
+
 
     return (
         <Component>
@@ -53,16 +58,14 @@ const DetailView = () => {
                         <ActionItem product={product} />
                     </Grid>
                     <RightContainer item lg={8} md={8} sm={8} xs={12}>
-                        <Typography>{product.title.longTitle}</Typography>
-                        <Typography style={{marginTop: 5, color: '#878787', fontSize: 14 }}>
-                            8 Ratings & 1 Reviews
-                            <span><img src={fassured} style={{width: 77, marginLeft: 20}} /></span>
-                        </Typography>
+                        <Typography>{product.name}</Typography>
+                       
                         <Typography>
-                            <span style={{ fontSize: 28 }}>₹{product.price.cost}</span>&nbsp;&nbsp;&nbsp; 
-                            <span style={{ color: '#878787' }}><strike>₹{product.price.mrp}</strike></span>&nbsp;&nbsp;&nbsp;
-                            <span style={{ color: '#388E3C' }}>{product.price.discount} off</span>
+                            <span style={{ fontSize: 28, color:'green' }}>₹{product.price}</span>&nbsp;&nbsp;&nbsp; 
+                            <span style={{ color: '#878787' }}><strike>₹{Number(product.price) + 100}</strike></span>&nbsp;&nbsp;&nbsp;
+                            {/* <span style={{ color: '#388E3C' }}>{product.price.discount} off</span> */}
                         </Typography>
+                        
                         <ProductDetail product={product} />
                     </RightContainer>
                 </Container>

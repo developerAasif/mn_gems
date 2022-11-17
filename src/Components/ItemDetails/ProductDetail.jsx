@@ -1,6 +1,7 @@
 
 import { Box, Typography, Table, TableBody, TableRow, TableCell, styled } from '@mui/material';
 import { LocalOffer as Badge } from '@mui/icons-material';
+import StarRatings from 'react-star-ratings';
 
 const SmallText = styled(Box)`
     font-size: 14px;
@@ -28,22 +29,38 @@ const StyledBadge = styled(Badge)`
 
 const ProductDetail = ({ product }) => {
     const adURL = 'https://rukminim1.flixcart.com/lockin/774/185/images/CCO__PP_2019-07-14.png?q=50';
-    const date = new Date(new Date().getTime()+(5*24*60*60*1000));
-    
+    const date = new Date(new Date().getTime() + (5 * 24 * 60 * 60 * 1000));
+
     return (
         <>
-            <Typography>Available offers</Typography>
-            <SmallText>
-                <Typography><StyledBadge />Bank Offer 5% Unlimited Cashback on Flipkart Axis Bank Credit Card</Typography>
-                <Typography><StyledBadge />Bank Offer 10% Off on Bank of Baroda Mastercard debit card first time transaction, Terms and Condition apply</Typography>
-                <Typography><StyledBadge />Purchase this Furniture or Appliance and Get Extra ₹500 Off on Select ACs</Typography>
-                <Typography><StyledBadge />Partner OfferExtra 10% off upto ₹500 on next furniture purchase</Typography>
-            </SmallText>
+
             <Table>
                 <TableBody>
                     <ColumnText>
                         <TableCell style={{ color: '#878787' }}>Delivery</TableCell>
-                        <TableCell style={{ fontWeight: 600 }}>Delivery by {date.toDateString()} | ₹40</TableCell>
+                        <TableCell style={{ fontWeight: 600 }}>Delivery by {date.toDateString()} | ${product?.delivery_charge} </TableCell>
+                    </ColumnText>
+                    <ColumnText>
+                        <TableCell style={{ color: '#878787' }}>Stock</TableCell>
+                        <TableCell>{product?.stock}</TableCell>
+                    </ColumnText>
+                    <ColumnText>
+                        <TableCell style={{ color: '#878787' }}>Size</TableCell>
+                        <TableCell>{product?.size}</TableCell>
+                    </ColumnText>
+                    <ColumnText>
+                        <TableCell style={{ color: '#878787' }}>Ratings</TableCell>
+                        <StarRatings
+                            starDimension="20px"
+                            starSpacing="5px"
+                            rating={Number(product?.avg_rating) || 0}
+                            starRatedColor="blue"
+                            // changeRating={this.changeRating}
+                            numberOfStars={5}
+                            name='rating'
+                        />
+                        <span style={{marginLeft:5}}>({product?.avg_rating})</span>
+
                     </ColumnText>
                     <ColumnText>
                         <TableCell style={{ color: '#878787' }}>Warranty</TableCell>
@@ -54,14 +71,13 @@ const ProductDetail = ({ product }) => {
                         <TableCell>
                             <span style={{ color: '#2874f0' }}>SuperComNet</span>
                             <Typography>GST invoice available</Typography>
-                            <Typography>View more sellers starting from ₹329</Typography>
                         </TableCell>
                     </ColumnText>
-                    <TableRow>
+                    {/* <TableRow>
                         <TableCell colSpan={2}>
                             <img src={adURL} style={{ width: 390 }} />
                         </TableCell>
-                    </TableRow>
+                    </TableRow> */}
                     <ColumnText>
                         <TableCell style={{ color: '#878787' }}>Description</TableCell>
                         <TableCell>{product.description}</TableCell>

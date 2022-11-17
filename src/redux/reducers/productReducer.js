@@ -16,7 +16,7 @@ export const getProductReducer = (state = {products: []}, action) => {
 export const getViewAllReducer = (state = {viewAll: []}, action) => {
     switch(action.type) {
         case actionTypes.GET_VIEW_ALL_SUCCESS:
-            return { viewAll: action.payload }
+            return { viewAll: action.payload?.result, totalPage: action.payload?.total_pages }
         case actionTypes.GET_VIEW_ALL_FAIL:
             return { error: action.payload }
         default:

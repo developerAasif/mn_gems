@@ -1,13 +1,17 @@
 
-import { Link, useNavigate,useLocation } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import StarRatings from 'react-star-ratings';
 import { Button, Divider, Box, Typography, styled } from '@mui/material';
 import Carousel from 'react-multi-carousel';
 import Countdown from 'react-countdown';
 import "react-multi-carousel/lib/styles.css";
 import { viewAllProducts } from '../../redux/actions/productActions';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { BiArrowBack } from "react-icons/bi";
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
+import apiPath from '../../utils/apiPath';
 
 
 
@@ -49,17 +53,9 @@ const DealText = styled(Typography)(({ theme }) => ({
     }
 }));
 
-const Timer = styled(Box)`
-    color: #7f7f7f;
-    margin-left: 10px;
-    display: flex;
-    align-items: center;
-`;
-
-
 
 const ViewAllButton = styled(Button)(({ theme }) => ({
-    marginLeft: 'auto',
+    marginRight: 'auto',
     backgroundColor: '#2874f0',
     borderRadius: '2px',
     fontSize: '13px',
@@ -149,63 +145,90 @@ const Rating = styled(Box)(({ theme }) => ({
     width: '100%',
 }));
 
+
+const PaginationContainer = styled(Box)(({ theme }) => ({
+  display:'flex',
+  justifyContent:'center',
+  alignItems:'center',
+  padding:20,
+  borderTop:'2px solid #f1f1f1',
+    [theme.breakpoints.down('sm')]: {
+        fontSize: '15px',
+        fontWeight: 600,
+    }
+}));
+
 const ViewAll = () => {
 
-    const location = useLocation()
-
+    const location = useLocation();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const {viewAll, totalPage} = useSelector(state => state?.view);
+    const [page, setPage] = useState(1);
+
+
+    const handleChange = (e,value) => {
+        setPage(value);
+      };
+
 
     useEffect(() => {
-        var data = {'page-limit': 20, 'current-page': 1}
-        dispatch(viewAllProducts(data))
-    }, [dispatch])
-   
+        // location.state.id
+        var data = { 'page-limit': 18, 'current-page': page }
+        var url = location?.state?.path == 'Products' ? apiPath.getViewAllProducts : location?.state?.path == 'category' ? `${apiPath.getViewAllProducts}/${location?.state?.id}` : apiPath.getViewAllPopularProducts;
+        dispatch(viewAllProducts(data,url))
+    }, [dispatch, page])
 
-    console.log('location==>>>',location)
+
     return (
         <Component>
             <Deal>
-                {/* <DealText>{title}</DealText> */}
-                {/* <ViewAllButton variant="contained" color="primary" >View All</ViewAllButton> */}
+                <ViewAllButton variant="contained" color="primary" onClick={() => navigate('/')}><BiArrowBack /></ViewAllButton>
+                <DealText>{ ['Products','category'].includes(location?.state?.path) ? 'All Products' : 'All Popular Products'}</DealText>
             </Deal>
             <Divider />
             <HomeContainer>
                 {
-                    // products.map((item, i) => (
-                    //     <Product textAlign="center" key={i} >
-                    //         {/* {item?.avg_rating == '0.0' && (item.avg_rating = 1)} */}
-                    //         <Link to={`product/${item?.id}`} style={{ textDecoration: 'none', }} >
-                    //             <Image src={item?.images[0]?.image} />
-                    //             <Text style={{ fontWeight: 600, color: '#212121' }}>{item?.name}</Text>
-                    //             <TextBox>
-                    //                 <TextLeft> <Text style={{ color: 'gray', fontSize: '12px' }}> Price:</Text> </TextLeft>
-                    //                 <TextRight> <Text style={{ color: 'green' }}> ${item?.price}</Text> </TextRight>
-                    //             </TextBox>
-                    //             <TextBox>
-                    //                 <TextLeft> <Text style={{ color: 'gray', fontSize: '12px' }}> Qty:</Text> </TextLeft>
-                    //                 <TextRight> <Text style={{ color: 'blue', }}> {item?.stock}</Text> </TextRight>
-                    //             </TextBox>
-                    //             <TextBox>
-                    //                 <TextLeft> <Text style={{ color: 'gray', fontSize: '12px' }}> Rating:</Text> </TextLeft>
-                    //                 <TextRight> <Text style={{ color: '#212121', opacity: '.6' }}> {item?.avg_rating}</Text> </TextRight>
-                    //             </TextBox>
-                    //             <Rating >
-                    //                 <StarRatings
-                    //                     starDimension="20px"
-                    //                     starSpacing="5px"
-                    //                     rating={Number(item?.avg_rating) || 0}
-                    //                     starRatedColor="blue"
-                    //                     // changeRating={this.changeRating}
-                    //                     numberOfStars={5}
-                    //                     name='rating'
-                    //                 />
-                    //             </Rating>
+                    viewAll && viewAll.length > 0 && viewAll.map((item, i) => (
+                        <Product textAlign="center" key={i} >
+                            {/* {item?.avg_rating == '0.0' && (item.avg_rating = 1)} */}
+                            <Link to={`../product/${item?.id}`} style={{ textDecoration: 'none', }} >
+                                <Image src={item?.images[0]?.image} />
+                                <Text style={{ fontWeight: 600, color: '#212121' }}>{item?.name}</Text>
+                                <TextBox>
+                                    <TextLeft> <Text style={{ color: 'gray', fontSize: '12px' }}> Price:</Text> </TextLeft>
+                                    <TextRight> <Text style={{ color: 'green' }}> ${item?.price}</Text> </TextRight>
+                                </TextBox>
+                                <TextBox>
+                                    <TextLeft> <Text style={{ color: 'gray', fontSize: '12px' }}> Qty:</Text> </TextLeft>
+                                    <TextRight> <Text style={{ color: 'blue', }}> {item?.stock}</Text> </TextRight>
+                                </TextBox>
+                                <TextBox>
+                                    <TextLeft> <Text style={{ color: 'gray', fontSize: '12px' }}> Rating:</Text> </TextLeft>
+                                    <TextRight> <Text style={{ color: '#212121', opacity: '.6' }}> {item?.avg_rating}</Text> </TextRight>
+                                </TextBox>
+                                <Rating >
+                                    <StarRatings
+                                        starDimension="20px"
+                                        starSpacing="5px"
+                                        rating={Number(item?.avg_rating) || 0}
+                                        starRatedColor="blue"
+                                        // changeRating={this.changeRating}
+                                        numberOfStars={5}
+                                        name='rating'
+                                    />
+                                </Rating>
 
-                    //         </Link>
-                    //     </Product>
-                    // ))
+                            </Link>
+                        </Product>
+                    ))
                 }
             </HomeContainer>
+            <PaginationContainer>
+            <Stack spacing={2} >
+                <Pagination count={totalPage} color="primary" page={page} onChange={handleChange} />
+            </Stack>
+            </PaginationContainer>
 
         </Component>
     )

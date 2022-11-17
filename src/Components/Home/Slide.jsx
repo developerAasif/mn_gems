@@ -5,7 +5,7 @@ import { Button, Divider, Box, Typography, styled } from '@mui/material';
 import Carousel from 'react-multi-carousel';
 import "react-multi-carousel/lib/styles.css";
 import Countdown from 'react-countdown';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 const responsive = {
@@ -102,6 +102,12 @@ const CardBox = styled(Box)(({ theme }) => ({
 const MultiSlide = ({ data, timer, title }) => {
 
 
+    const navigate = useNavigate()
+
+    const viewAll = () =>{
+        navigate('/view-all',{state:{path:title}})
+    }
+
     return (
         <Component>
             <Deal>
@@ -112,7 +118,7 @@ const MultiSlide = ({ data, timer, title }) => {
                                 <Countdown date={Date.now() + 5.04e+7} renderer={renderer} />
                         </Timer>
                 } */}
-                <ViewAllButton variant="contained" color="primary">View All</ViewAllButton>
+                <ViewAllButton variant="contained" color="primary" onClick={viewAll}>View All</ViewAllButton>
             </Deal>
             <Divider />
             <Carousel
