@@ -67,8 +67,7 @@ const MobileSizeLogin = () => {
     const [open, setOpen] = useState(false);
     const { account, setAccount } = useContext(LoginContext);
 
-    const cartDetails = useSelector(state => state.cart);
-    const { cartItems } = cartDetails;
+    const {count} = useSelector(state => state.cart?.cartItems);
 
     const openDialog = () => {
         setOpen(true);
@@ -83,7 +82,7 @@ const MobileSizeLogin = () => {
             }
 
             <Container to='/cart'>
-                <Badge badgeContent={cartItems?.length||0} color="success" >
+                <Badge badgeContent={count} color="success" >
                     <ShoppingCart style={{fontSize:'30px', color:'white'}}/>
                 </Badge>
                 {/* <Typography style={{ marginLeft: 10 }}></Typography> */}

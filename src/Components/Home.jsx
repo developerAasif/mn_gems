@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Box, styled } from '@mui/material';
 
@@ -11,6 +11,10 @@ import Slide from './Home/Slide';
 import { useSelector, useDispatch } from 'react-redux'; // hooks
 import { getProducts as listProducts } from '../redux/actions/productActions';
 import HomeProducts from './HomeProducts';
+import Session from '../utils/session';
+import Loader from './Loader/Loader';
+import { LOADER } from '../redux/constants/otherConstant';
+import { getCart } from '../redux/actions/cartActions';
 
 const Component = styled(Box)`
     padding: 20px 10px;
@@ -18,18 +22,25 @@ const Component = styled(Box)`
 `;
 
 const Home = () => {
+    const { loader } = useSelector(state => state?.loader);
     const { banners, categories, popular_products, products } = useSelector(state => state?.getProducts?.products);
+  
 
     const dispatch = useDispatch();
 
     useEffect(() => {
+        Session.setSession('user_id',10)
+        dispatch({ type: LOADER, payload: true });
         dispatch(listProducts())
+        dispatch(getCart(786));
     }, [dispatch])
-
 
 
     return (
         <>
+
+        {
+           loader ? (<Loader />) : (
 
             <Component>
                 {
@@ -45,6 +56,9 @@ const Home = () => {
                     products && products?.length > 0 && <HomeProducts products={products} title={'Products'} />
                 }
             </Component>
+            
+           )
+        }
         </>
     )
 }

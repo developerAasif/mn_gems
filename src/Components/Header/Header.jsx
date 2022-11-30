@@ -95,8 +95,8 @@ const Header = () => {
 
 
     return (
-        <StyledHeader position="fixed">
-            <Toolbar style={{ minHeight: 60, }}>
+        <StyledHeader position="fixed" >
+            <Toolbar style={{ minHeight: 60, background:'black' }}>
                 <MenuButton
                     color="inherit"
                     onClick={handleOpen}

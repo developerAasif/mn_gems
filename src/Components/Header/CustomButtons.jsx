@@ -69,8 +69,9 @@ const CustomButtons = () => {
     const [open, setOpen] = useState(false);
     const { account, setAccount } = useContext(LoginContext);
 
-    const cartDetails = useSelector(state => state.cart);
-    const { cartItems } = cartDetails;
+    const {count} = useSelector(state => state.cart?.cartItems);
+  
+
 
     const openDialog = () => {
         setOpen(true);
@@ -87,7 +88,7 @@ const CustomButtons = () => {
             <Typography style={{ marginTop: 3 }}>More</Typography>
 
             <Container to='/cart'>
-                <Badge badgeContent={cartItems?.length} color="secondary">
+                <Badge badgeContent={count} color="secondary">
                     <ShoppingCart />
                 </Badge>
                 {/* <Typography style={{ marginLeft: 10 }}>Cart</Typography> */}

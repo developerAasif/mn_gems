@@ -21,11 +21,11 @@ const Container = styled(Box)`
     }
 `;
 
-const Price = styled(Typography)`
+const Price = styled(Box)`
     float: right;
 `;
 
-const TotalAmount = styled(Typography)`
+const TotalAmount = styled(Box)`
     font-size: 18px;
     font-weight: 600;
     border-top: 1px dashed #e0e0e0;
@@ -33,7 +33,7 @@ const TotalAmount = styled(Typography)`
     border-bottom: 1px dashed #e0e0e0;
 `;
 
-const Discount = styled(Typography)`
+const Discount = styled(Box)`
     font-size: 16px; 
     color: green;
 `
@@ -43,22 +43,27 @@ const Discount = styled(Typography)`
 // },
 
 
-const TotalView = ({ cartItems }) => {
+const TotalView = ({ cartItems, total }) => {
     const [price, setPrice] = useState(0);
     const [discount, setDiscount] = useState(0)
+    const [delivery, setDelivery] = useState(0)
+    console.log('total view==>>>>>',cartItems)
 
     useEffect(() => {
         totalAmount();
     }, [cartItems]);
     
     const totalAmount = () => {
-        let price = 0, discount = 0;
+        let price = 0, discount = 0, delevery_charge = 0;
         cartItems.map(item => {
-            price += item.price.mrp
-            discount += (item.price.mrp - item.price.cost) 
+            // price += Number(item?.product_detail?.price)
+            delevery_charge += Number(item?.product_detail?.delivery_charge)
+            // discount += (Number(item?.product_detail?.price) - Number(item?.product_detail?.price)+100) 
         })
-        setPrice(price);
-        setDiscount(discount);
+ 
+        // setPrice(price);
+        // setDiscount(discount);
+        setDelivery(delevery_charge);
     }
 
     return (
@@ -67,19 +72,19 @@ const TotalView = ({ cartItems }) => {
                 <Heading>PRICE DETAILS</Heading>
             </Header>
             <Container>
-                <Typography>Price ({cartItems?.length} item)
-                    <Price component="span">₹{price}</Price>
+                <Typography >Price ({cartItems?.length} item)
+                    <Price style={{color:'green'}} component="span">${total}</Price>
                 </Typography>
                 <Typography>Discount
-                    <Price component="span">-₹{discount}</Price>
+                    <Price component="span">-${discount}</Price>
                 </Typography>
                 <Typography>Delivery Charges
-                    <Price component="span">₹40</Price>
+                    <Price component="span">${delivery}</Price>
                 </Typography>
                 <TotalAmount>Total Amount
-                    <Price>₹{price - discount + 40}</Price>
+                    <Price style={{color:'green'}}>${Number(total) - Number(discount) + Number(delivery)}</Price>
                 </TotalAmount>
-                <Discount>You will save ₹{discount - 40} on this order</Discount>
+                <Discount>You will save ${Number(discount) - Number(delivery)} on this order</Discount>
             </Container>
         </Box>
     )

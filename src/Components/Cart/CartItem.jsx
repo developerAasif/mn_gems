@@ -1,5 +1,6 @@
 
 import { Card, Box, Typography, Button, styled } from '@mui/material';
+import Session from '../../utils/session';
 
 import { addEllipsis } from '../../utils/util';
 import GroupButton from './GroupButton';
@@ -46,20 +47,20 @@ const CartItem = ({ item, removeItemFromCart }) => {
     return (
         <Component>
             <LeftComponent>
-                <img src={item.url} style={{ height: 110, width: 110 }} />
-                <GroupButton />
+                <img src={item?.product_detail?.product_images[0]?.image || ''} style={{ height: 110, width: 110 }} />
+                <GroupButton item={item} />
             </LeftComponent>
             <Box style={{ margin: 20 }}>
-                <Typography>{addEllipsis(item.title.longTitle)}</Typography>
+                <Typography>{addEllipsis(item?.product_detail?.name )}</Typography>
                 <SmallText>Seller:RetailNet
-                    <span><img src={fassured} style={{ width: 50, marginLeft: 10 }} /></span>
+                    {/* <span><img src={fassured} style={{ width: 50, marginLeft: 10 }} /></span> */}
                 </SmallText>
                 <Typography style={{margin: '20px 0'}}>
-                    <Cost component="span">₹{item.price.cost}</Cost>&nbsp;&nbsp;&nbsp;
-                    <MRP component="span"><strike>₹{item.price.mrp}</strike></MRP>&nbsp;&nbsp;&nbsp;
-                    <Discount component="span">{item.price.discount} off</Discount>
+                    <Cost component="span">${item?.product_detail?.price}</Cost>&nbsp;&nbsp;&nbsp;
+                    <MRP component="span"><strike>${Number(item?.product_detail?.price)+100}</strike></MRP>&nbsp;&nbsp;&nbsp;
+                    {/* <Discount component="span">{item.price.discount} off</Discount> */}
                 </Typography>
-                <Remove onClick={() => removeItemFromCart(item.id)}>Remove</Remove>
+                <Remove onClick={() => removeItemFromCart(item)}>Remove</Remove>
             </Box>
         </Component>
     )

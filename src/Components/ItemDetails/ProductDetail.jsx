@@ -50,6 +50,7 @@ const ProductDetail = ({ product }) => {
                     </ColumnText>
                     <ColumnText>
                         <TableCell style={{ color: '#878787' }}>Ratings</TableCell>
+                        <TableCell style={{ color: '#878787' }}>
                         <StarRatings
                             starDimension="20px"
                             starSpacing="5px"
@@ -60,6 +61,7 @@ const ProductDetail = ({ product }) => {
                             name='rating'
                         />
                         <span style={{marginLeft:5}}>({product?.avg_rating})</span>
+                        </TableCell>
 
                     </ColumnText>
                     <ColumnText>

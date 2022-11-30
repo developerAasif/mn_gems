@@ -2,16 +2,19 @@ import * as actionTypes from '../constants/productConstant';
 import axios from 'axios';
 import apiPath from '../../utils/apiPath';
 import helper from '../../utils/helper';
+import { LOADER } from '../constants/otherConstant';
 
 export const getProducts = () => async (dispatch) => {
     try {
         const data  = await helper.api(apiPath.getHomeData, "GET", {});
         if(data?.status == 200){
             dispatch({ type: actionTypes.GET_PRODUCTS_SUCCESS, payload: data?.result });
+            dispatch({ type: LOADER, payload: false });
         }
 
     } catch (error) {
         dispatch({ type: actionTypes.GET_PRODUCTS_FAIL, payload: error.response });
+        dispatch({ type: LOADER, payload: false });
     }
 };
 export const viewAllProducts = (payload,url) => async (dispatch) => {
@@ -19,10 +22,12 @@ export const viewAllProducts = (payload,url) => async (dispatch) => {
         const data  = await helper.api(url, "post", payload);
         if(data?.status == 200){
             dispatch({ type: actionTypes.GET_VIEW_ALL_SUCCESS, payload: data });
+            dispatch({ type: LOADER, payload: false });
         }
 
     } catch (error) {
         dispatch({ type: actionTypes.GET_VIEW_ALL_FAIL, payload: error.response });
+        dispatch({ type: LOADER, payload: false });
     }
 };
 
@@ -37,7 +42,7 @@ export const getProductDetails = (id) => async (dispatch) => {
 
     } catch (error) {
         dispatch({ type: actionTypes.GET_PRODUCT_DETAILS_FAIL, payload: error.response});
-
+        dispatch({ type: LOADER, payload: false });
     }
 };
 

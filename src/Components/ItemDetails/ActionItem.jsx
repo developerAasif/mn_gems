@@ -7,11 +7,15 @@ import { useNavigate } from 'react-router-dom';
 import { payUsingPaytm } from '../../service/api';
 import { post } from '../../utils/paytm';
 
-import { addToCart } from '../../redux/actions/cartActions';
+import { addToCart, getCart } from '../../redux/actions/cartActions';
 import { useDispatch, useSelector } from 'react-redux';
+import toast, { Toaster } from 'react-hot-toast';
 
 import Carousel from 'react-multi-carousel';
 import "react-multi-carousel/lib/styles.css";
+import helper from '../../utils/helper';
+import apiPath from '../../utils/apiPath';
+import Session from '../../utils/session';
 
 
 const LeftContainer = styled(Box)(({ theme }) => ({
@@ -32,13 +36,26 @@ const LeftContainer = styled(Box)(({ theme }) => ({
 // });
 
 
+const StyledButtonContainer = styled(Box)(({ theme }) => ({
+   width: '100%',
+   display:'flex',
+   alignItems:'center',
+   justifyContent:'center',
+    [theme.breakpoints.down('sm')]: {
+      
+    }
+}));
 
-const StyledButton = styled(Button)`
-    width: 46%;
-    border-radius: 2px;
-    height: 50px;
-    color: #FFF;
-`;
+
+const StyledButton = styled(Button)(({ theme }) => ({
+    width: '60%',
+    borderRadius: '2px',
+    height: '50px',
+    color: '#FFF',
+    [theme.breakpoints.down('sm')]: {
+      
+    }
+}));
 
 const CardBox = styled(Box)(({ theme }) => ({
     padding: '25px 15px',
@@ -82,6 +99,7 @@ const Image = styled('img')(({ theme }) => ({
 }));
 
 const ActionItem = ({ product }) => {
+    const user_id = Session.getSession('user_id');
     const navigate = useNavigate();
 
     const { id } = product;
@@ -98,9 +116,30 @@ const ActionItem = ({ product }) => {
         post(information);
     }
 
-    const addItemToCart = () => {
-        dispatch(addToCart(id, quantity));
-        navigate('/cart');
+    const addItemToCart = async(product) => {
+     
+            try {
+                var payload = {
+                    "user_id":user_id,
+                    "product_id":product?.id,
+                    "current_price":product?.price
+                }
+                var url = apiPath.addToCart;
+                const data  = await helper.api(url, "POST",payload);
+                console.log('cart api data=>>>>>',data)
+                if(data?.status == 200){
+                    console.log('message==>>>',data?.message);
+                    toast.success(data?.message)
+                      dispatch(getCart(user_id));
+                }else{
+                    console.log('message==>>>',data?.response?.data?.message);
+                    toast.error(data?.response?.data?.message) 
+                }
+        
+            } catch (error) {
+                console.log('err in add to cart api==>>>>>>>',error.message);
+            }
+      
     }
 
     const DetailImage = ({ banners }) => {
@@ -122,8 +161,8 @@ const ActionItem = ({ product }) => {
             itemClass="carousel-item-padding-40-px"
         >
             {
-                banners && banners?.length > 0 && banners.map(item => (
-                    <CardBox>
+                banners && banners?.length > 0 && banners.map((item,i) => (
+                    <CardBox key={i}>
                     <Image src={item?.image} alt="banner" id={item?.id} key={item?.id} />
                     </CardBox>
                 ))
@@ -137,8 +176,11 @@ const ActionItem = ({ product }) => {
             {/* <Image src={product?.images[0]?.image} /> */}
             <DetailImage banners={product?.images} />
             <br />
-            <StyledButton onClick={() => addItemToCart()} style={{ marginRight: 10, background: '#ff9f00' }} variant="contained"><Cart />Add to Cart</StyledButton>
-            <StyledButton onClick={() => buyNow()} style={{ background: '#fb641b' }} variant="contained"><Flash /> Buy Now</StyledButton>
+
+            <StyledButtonContainer>
+            <StyledButton onClick={() => addItemToCart(product)} style={{ marginRight: 10, background: '#ff9f00' }} variant="contained" disabled={product?.stock == 0 && true} ><Cart />Add to Cart</StyledButton>
+            </StyledButtonContainer>
+            {/* <StyledButton onClick={() => buyNow()} style={{ background: '#fb641b' }} variant="contained"><Flash /> Buy Now</StyledButton> */}
         </LeftContainer>
     )
 }
