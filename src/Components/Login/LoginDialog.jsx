@@ -1,10 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'; // hooks
-
-import { Dialog, DialogContent, TextField, Box, Button, Typography, styled } from '@mui/material';
+import 'react-phone-number-input/style.css'
+import PhoneInput, { formatPhoneNumber, formatPhoneNumberIntl, isValidPhoneNumber } from 'react-phone-number-input'
+import { Dialog, DialogContent, TextField, Box, Button, Typography, styled, CircularProgress } from '@mui/material';
+import OtpInput from 'react-otp-input';
 
 import { authenticateLogin, authenticateSignup } from '../../service/api';
-import { register } from '../../redux/actions/authAction';
+import { register, userLogin } from '../../redux/actions/authAction';
+
+import { useUserAuth } from "../../firebase/userContextAuth";
+import toast, { Toaster } from 'react-hot-toast';
+
+import './PhoneNumber.css'
+
+import Loader from '../Loader/Loader';
+import Session from '../../utils/session';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 
 
@@ -70,9 +81,9 @@ const Wrapper = styled(Box)`
 `;
 
 const Error = styled(Typography)`
-    font-size: 10px;
+    font-size: 12px;
     color: #ff6161;
-    line-height: 0;
+    line-height: 1;
     margin-top: 10px;
     font-weight: 600;
 `
@@ -95,7 +106,7 @@ const loginInitialValues = {
 };
 
 const signupInitialValues = {
-    name:'',
+    name: '',
     password: '',
     mobile: ''
 };
@@ -110,15 +121,32 @@ const accountInitialValues = {
         view: 'signup',
         heading: "Looks like you're new here",
         subHeading: 'Signup to get started'
+    },
+    otp: {
+        view: 'otp',
+        heading: "Looks like you're new here",
+        subHeading: 'Signup to get started'
     }
 }
 
 const LoginDialog = ({ open, setOpen, setAccount }) => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+
     const [login, setLogin] = useState(loginInitialValues);
     const [signup, setSignup] = useState(signupInitialValues);
     const [error, showError] = useState(false);
     const [account, toggleAccount] = useState(accountInitialValues.login);
+
+    // const [error, setError] = useState("");
+    const [number, setNumber] = useState("");
+    const [flag, setFlag] = useState(false);
+    const [otp, setOtp] = useState("");
+    const [result, setResult] = useState("");
+    const [loader, setLoader] = useState(false);
+
+    const { setUpRecaptha, logOut } = useUserAuth();
 
     useEffect(() => {
         showError(false);
@@ -133,25 +161,28 @@ const LoginDialog = ({ open, setOpen, setAccount }) => {
     }
 
     const loginUser = async () => {
-        dispatch(register(login))
-        
-        // let response = await authenticateLogin(login);
-        // if (!response)
-        //     showError(true);
-        // else {
-        //     showError(false);
-        //     handleClose();
-        //     setAccount(login.username);
-        // }
+        setLoader(true)
+        var data = {
+            "mobile":number,
+            "password":signup?.password
+        }
+        const response = await dispatch(userLogin(data))
+        if (!response){
+            showError(true);
+            Session.clearAllSession();
+            setLoader(false)
+        }
+        else {
+            Session.setSession('auth', response?.result[0])
+            setAccount(response?.result[0]?.name);
+            showError(false);
+            handleClose();
+            navigate('/')
+            setLoader(false)
+        }
+
     }
 
-    const signupUser = async () => {
-        dispatch(register(signup))
-        // let response = await authenticateSignup(signup);
-        // if (!response) return;
-        // handleClose();
-        // setAccount(signup.username);
-    }
 
     const toggleSignup = () => {
         toggleAccount(accountInitialValues.signup);
@@ -165,6 +196,79 @@ const LoginDialog = ({ open, setOpen, setAccount }) => {
         toggleAccount(accountInitialValues.login);
     }
 
+    const getOtp = async (e) => {
+        setLoader(true)
+        var isErrors = number ? (isValidPhoneNumber(number) ? false : 'Invalid phone number') : 'Phone number required'
+        if (isErrors) {
+            toast.error(isErrors)
+            showError(isErrors)
+            return
+        }
+        if (!signup?.name || !signup.password) {
+            showError('required all fields')
+            return
+        }
+        try {
+            var data = {
+                "name": signup?.name,
+                "mobile": number,
+                "password": signup?.password,
+                "fcm_token": "fsdafsdfdf"
+            }
+            Session.setSession('signup', data)
+            console.log('send otp for ==>>>', data)
+            const response = await setUpRecaptha(number);
+            setResult(response);
+            toggleAccount(accountInitialValues.otp);
+            console.log('response ==>>>>>>>', response);
+        } catch (err) {
+            toast.error(err?.message)
+            showError(err.message);
+        }
+        setLoader(false)
+    };
+
+    const signupUser = async () => {
+        setLoader(true)
+        if (otp === "" || otp === null) {
+            showError('required all fields')
+        };
+        try {
+            var data = {}
+            var res = await result.confirm(otp);
+            if (res) {
+                var data = Session.getSession('signup')
+                var response = await dispatch(register(data))
+                if (response) {
+                    Session.setSession('auth', response?.result[0])
+                    setAccount(signup.name);
+                    handleClose()
+                    navigate('/')
+                } else {
+                    logOut()
+                    Session.clearAllSession()
+                }
+                // Session.clearAllSession()
+            }
+            // console.log('verifyyyy==>>>>', res);
+            setLoader(false)
+            //   navigate("/home");
+        } catch (err) {
+            setLoader(false)
+            showError(err.message);
+        }
+        // dispatch(register(signup))
+        // let response = await authenticateSignup(signup);
+        // if (!response) return;
+        // handleClose();
+        // setAccount(signup.username);
+
+    }
+    const logoutUser = async () => {
+        const res = await logOut()
+        console.log('log out res==>>>>', res);
+    }
+
     return (
         <Dialog open={open} onClose={handleClose} PaperProps={{ sx: { maxWidth: '100%' } }}>
             <Component>
@@ -176,22 +280,70 @@ const LoginDialog = ({ open, setOpen, setAccount }) => {
                     {
                         account.view === 'login' ?
                             <Wrapper style={{}}>
-                                <TextField variant="standard" onChange={(e) => onValueChange(e)} name='mobile' label='Enter Mobile number' />
-                                {error && <Error>Please enter valid Mobile number</Error>}
-                                <TextField variant="standard" onChange={(e) => onValueChange(e)} name='password' label='Enter Password' />
-                                <Text>By continuing, you agree to  Terms of Use and Privacy Policy.</Text>
-                                <LoginButton onClick={() => loginUser()} >Login</LoginButton>
-                                {/* <Text style={{ textAlign: 'center' }}>OR</Text>
-                                <RequestOTP>Request OTP</RequestOTP> */}
+
+                                <PhoneInput
+                                    defaultCountry="IN"
+                                    value={number}
+                                    onChange={setNumber}
+                                    placeholder="Enter Phone Number"
+                                />
+                                <TextField variant="outlined" onChange={(e) => onInputChange(e)} name='password' label='Enter Password' />
+
+                                <Error>{error}</Error>
+
+                                {loader ? <LoginButton disabled={true}   > <CircularProgress /> </LoginButton> : <LoginButton onClick={() => loginUser()} >Login</LoginButton>}
+
                                 <CreateAccount onClick={() => toggleSignup()}>New to MN-Gems? Create an account</CreateAccount>
-                            </Wrapper> :
-                            <Wrapper>
-                                <TextField variant="standard" onChange={(e) => onInputChange(e)} name='name' label='Enter name' />
-                                <TextField variant="standard" onChange={(e) => onInputChange(e)} name='mobile' label='Enter mobile number' />
-                                <TextField variant="standard" onChange={(e) => onInputChange(e)} name='password' label='Enter Password' />
-                                <LoginButton onClick={() => signupUser()} >Continue</LoginButton>
-                                <CreateAccount onClick={() => toggleLogin()}>MN-Gems? Back To Login </CreateAccount>
                             </Wrapper>
+                            : account.view === 'signup' ?
+                                <Wrapper>
+
+                                    <PhoneInput
+                                        defaultCountry="IN"
+                                        value={number}
+                                        onChange={setNumber}
+                                        placeholder="Enter Phone Number"
+                                    />
+                                    <div id="recaptcha-container"></div>
+                                    <TextField variant="outlined" onChange={(e) => onInputChange(e)} name='name' label='Enter name' />
+                                    <TextField variant="outlined" onChange={(e) => onInputChange(e)} name='password' label='Enter Password' />
+
+                                    <Error>{error}</Error>
+
+                                    {loader ? <LoginButton disabled={true}   > <CircularProgress /> </LoginButton> : <LoginButton onClick={() => getOtp()} >Continue</LoginButton>}
+
+
+                                    <CreateAccount onClick={() => toggleLogin()}>MN-Gems? Back To Login </CreateAccount>
+                                </Wrapper>
+                                :
+                                <Wrapper >
+
+                                    <Box style={{ background: '', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px 10px' }}>
+                                        <Typography style={{ fontSize: '22px', }}>Verify OTP for Continew </Typography>
+                                    </Box>
+
+                                    <Box style={{ background: '', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px 10px' }}>
+                                        <OtpInput
+                                            value={otp}
+                                            onChange={(value) => setOtp(value)}
+                                            numInputs={6}
+                                            separator={<span>-</span>}
+                                            inputStyle="inputStyle"
+                                            isInputNum={true}
+                                        />
+
+                                    </Box>
+
+                                    {/* <TextField variant="standard" onChange={(e) => setOtp(e.target.value)} name='otp' label='Enter otp' /> */}
+                                    {console.log('otp length==>>', otp.length)}
+                                    <Error>{error}</Error>
+                                    {loader ?
+                                        <LoginButton disabled={true}   > <CircularProgress /> </LoginButton>
+                                        : <LoginButton disabled={otp.length !== 6} onClick={() => signupUser()}  > Verify OTP </LoginButton>
+                                    }
+                                    <CreateAccount onClick={() => toggleLogin()}>MN-Gems? Back To Login </CreateAccount>
+                                    {/* <CreateAccount onClick={() => getOtp()}>resend otp </CreateAccount> */}
+                                </Wrapper>
                     }
                 </Box>
             </Component>

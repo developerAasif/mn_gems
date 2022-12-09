@@ -18,6 +18,8 @@ import Payment from './Components/checkout/Payment';
 import OrderSuccess from './Components/checkout/OrderSuccess';
 import MyOrders from './Components/myOrders/MyOrders';
 import OrderDetails from './Components/myOrders/OrderDetails';
+import PhoneSignUp from './firebase/PhoneSignup';
+
 
 function App() {
 
@@ -28,6 +30,7 @@ function App() {
         <BrowserRouter>
           <Header />
           <Box style={{marginTop: 54}}>
+
             <Routes>
               <Route path= '/' element={<Home />} />
               <Route path= '/view-all' element={<ViewAll />} />
@@ -39,7 +42,9 @@ function App() {
               <Route path= '/orders' element={<MyOrders />} />
               <Route path= '/order/:id' element={<OrderDetails />} />
               <Route path= '/product/:id' element={<DetailView />} />
+              <Route path= '/change-password' element={<PhoneSignUp />} />
             </Routes>
+     
           </Box>
         </BrowserRouter>
       </ContextProvider>

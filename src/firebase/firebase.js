@@ -1,7 +1,5 @@
-import firebase from 'firebase/compat/app';
-import { getAuth, RecaptchaVerifier  } from "firebase/auth";
-
-
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDlX9Scz0vB9ssvIggd6sdI4nDwKg4w_UM",
@@ -12,6 +10,7 @@ const firebaseConfig = {
   appId: "1:723852394728:web:be7d3db46b34d80727c95d"
 };
 
-firebase.initializeApp(firebaseConfig);
-const auth = getAuth();
-export {auth , firebase, RecaptchaVerifier };
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
+export default app;

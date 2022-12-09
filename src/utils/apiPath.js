@@ -15,5 +15,7 @@ export default {
     addressAdd : base_url + "/customer/add-address",
     placeOrder : base_url + "/customer/place_order",
 
-    register : base_url + "/customer/login",
+    register : base_url + "/customer/register",
+    userLogin : base_url + "/customer/login",
+    changePassword : base_url + "/customer/change-password",
 }
