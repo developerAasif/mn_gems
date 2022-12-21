@@ -6,7 +6,8 @@ import apiPath from '../../utils/apiPath';
 import { LOADER } from '../constants/otherConstant';
 import Session from '../../utils/session';
 
-const user_id = Session.getSession('user_id');
+const user = Session.getSession('auth');
+var user_id = user?.id;
 
 export const saveShippingInfo = (data) => async (dispatch) => {
     try {
@@ -115,7 +116,27 @@ export const orderPlace = (data) => async (dispatch, getState) => {
 
 
 
+export const getOrders = (id) => async (dispatch) => {
+    try {
+        dispatch({ type: LOADER, payload: true });
+        var payload = {
+            "customer_id": id,
+            "current-page":1,
+            "page-limit":22,
+        }
+        var url = apiPath.getOrders;
+        const res = await helper.api(url, "post", payload);
+        if (res?.status == 200) {
+            dispatch({ type: actionTypes.GET_ORDERS, payload: res?.result });
+            dispatch({ type: LOADER, payload: false });
+        }
+        dispatch({ type: LOADER, payload: false });
+    } catch (error) {
+        console.log('err in get orders info ==>>>', error)
+        dispatch({ type: LOADER, payload: false });
+    }
 
+};
 
 
 

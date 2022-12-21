@@ -52,3 +52,18 @@ export const removeProductDetails = () => (dispatch) => {
     dispatch({ type: actionTypes.GET_PRODUCT_DETAILS_RESET });
 
 };
+
+
+export const searchProducts = (payload) => async (dispatch) => {
+    try {
+        const data  = await helper.api(apiPath.searcgProducts, "post", payload);
+        console.log('result of search===>>>>>>',data)
+        if(data?.status == 200){
+            dispatch({ type: actionTypes.SEARCH_PRODUCTS_SUCCESS, payload: data?.result });
+            dispatch({ type: LOADER, payload: false });
+        }
+
+    } catch (error) {
+        dispatch({ type: LOADER, payload: false });
+    }
+};

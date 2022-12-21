@@ -8,6 +8,7 @@ import { useUserAuth } from "../../firebase/userContextAuth";
 import { useDispatch } from 'react-redux';
 import { LOADER } from '../../redux/constants/otherConstant';
 import { changePassword } from '../../redux/actions/authAction';
+import { getCart } from '../../redux/actions/cartActions';
 
 const Component = styled(Menu)`
     margin-top: 5px;
@@ -32,6 +33,29 @@ const LoginButton = styled(Button)(({ theme }) => ({
     },
     [theme.breakpoints.down('sm')]: {
 
+    }
+}));
+const ProfileBox = styled(Typography)(({ theme }) => ({
+    textTransform: 'none',
+    // background: '#FB641B',
+    boxShadow: '1px 1px 5px white',
+    padding: '5px 10px',
+    color: '#fff',
+    // height: '48px',
+    borderRadius: '10px',
+    '&:hover': {
+        color: '#fb5200',
+    },
+    [theme.breakpoints.down('sm')]: {
+        // boxShadow: 'none',
+    }
+}));
+const AccountText = styled(Typography)(({ theme }) => ({
+    marginTop: 2,
+    cursor: 'pointer',
+    [theme.breakpoints.down('sm')]: {
+        padding: 10,
+        fontSize: '10px',
     }
 }));
 
@@ -100,35 +124,38 @@ const Profile = ({ account, setAccount }) => {
     }
 
     const forgotPassword = () => {
-        var data ={
+        var data = {
             "mobile": user?.mobile,
-            "password":signup?.password
+            "password": signup?.password
         }
-           const response =  dispatch(changePassword(data));
-           if (response) {
+        const response = dispatch(changePassword(data));
+        if (response) {
             setOpenForgot(false)
             setOpen(false)
         } else {
-           
+
         }
     }
 
     const logout = () => {
         dispatch({ type: LOADER, payload: true });
         setAccount('');
-        Session.clearAllSession()
+        Session.clearSession('auth')
+        Session.clearSession('cartItems')
+        dispatch(getCart())
         logOut()
+        navigate('/')
         setTimeout(() => {
             dispatch({ type: LOADER, payload: false });
         }, 200);
     }
 
-    console.log('open==>>>',open);
-    console.log('change pass==>>>',openForgot);
+    // console.log('open==>>>',open);
+    // console.log('change pass==>>>',openForgot);
 
     return (
         <>
-            <Box onClick={handleClick}><Typography style={{ marginTop: 2, cursor: 'pointer' }}>{account}</Typography></Box>
+            <ProfileBox onClick={handleClick}><AccountText >{account}</AccountText></ProfileBox>
             <Component
                 anchorEl={open}
                 open={Boolean(open)}
@@ -151,7 +178,7 @@ const Profile = ({ account, setAccount }) => {
                             <Typography style={{ marginTop: 20 }}>you can protect your password</Typography>
                         </Image> */}
                         <Wrapper style={{}}>
-                        <Typography variant="h5">Change Pawword</Typography>
+                            <Typography variant="h5">Change Pawword</Typography>
                             <TextField variant="outlined" onChange={(e) => onInputChange(e)} name='password' label='Enter Password' />
                             <TextField variant="outlined" onChange={(e) => onInputChange(e)} name='confirm_password' label='Enter Confirm Password' />
 

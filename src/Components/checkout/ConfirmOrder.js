@@ -19,7 +19,7 @@ const ConfirmOrder = ({ history }) => {
 
 
   let delevery_charge = 0;
-  carts.map(item => {
+  carts?.map(item => {
     delevery_charge += Number(item?.product_detail?.delivery_charge)
   })
 
@@ -27,9 +27,9 @@ const ConfirmOrder = ({ history }) => {
   const shippingCharges = subtotal > 1000 ? 0 : delevery_charge;
   const tax = subtotal * 0.18;
   const totalPrice = subtotal + shippingCharges;
+// console.log('addresss==>>>>>',shippingInfo)
 
-
-  const address = `${shippingInfo.address}, ${shippingInfo.city}, ${shippingInfo.state}, ${shippingInfo.pinCode}, ${shippingInfo.country}`;
+  const address = `${shippingInfo?.address}, ${shippingInfo?.city}, ${shippingInfo?.state}, ${shippingInfo?.pinCode}, ${shippingInfo?.country}`;
 
   const proceedToPayment = () => {
     const data = {
@@ -47,7 +47,7 @@ const ConfirmOrder = ({ history }) => {
 
 
 
-  console.log('cart itemsss=>>>>>>>>', carts)
+  // console.log('cart itemsss=>>>>>>>>', carts)
 
   return (
     <Fragment>

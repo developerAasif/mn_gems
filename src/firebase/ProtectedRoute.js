@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Navigate } from "react-router-dom";
-import { useUserAuth } from "./userContextAuth";
-const ProtectedRoute = ({ children }) => {
-  const { user } = useUserAuth();
-  if (!user) {
-    return <Navigate to="/" />;
-  }
-  return children;
+import Session from "../utils/session";
+
+const ProtectedRoute = ({ Children }) => {
+
+  const user = Session.getSession('auth');
+  console.log('userrrrrrrrr====>>>>>>', user)
+
+
+  return <>
+    {user ? <Children /> : <Navigate to="/" />}
+  </>
 };
 
 export default ProtectedRoute;

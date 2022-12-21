@@ -3,7 +3,7 @@ import React, { useState, useContext } from 'react';
 import { Box, Typography, Badge, Button, styled } from '@mui/material';
 import { ShoppingCart } from '@mui/icons-material';
 
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { LoginContext } from '../../context/ContextProvider';
 import { useSelector } from 'react-redux';
 
@@ -17,7 +17,7 @@ const Container = styled(Link)(({ theme }) => ({
             color: 'red',
         },
     },
-  
+
     [theme.breakpoints.down('sm')]: {
         display: 'block'
     }
@@ -26,6 +26,7 @@ const Container = styled(Link)(({ theme }) => ({
 const Wrapper = styled(Box)(({ theme }) => ({
     margin: '0 3% 0 auto',
     display: 'flex',
+    width:'100%',
     '& > *': {
         marginRight: '40px !important',
         textDecoration: 'none',
@@ -59,33 +60,58 @@ const LoginButton = styled(Button)(({ theme }) => ({
     },
     [theme.breakpoints.down('sm')]: {
         background: '#2874f0',
-        color: '#FFFFFF'
+        color: '#FFFFFF',
     }
 }));
+
+const MyordersBox = styled(Typography)(({ theme }) => ({
+    textTransform: 'none',
+    color: '#fff',
+    // height: '48px',
+    marginTop:5,
+    cursor:'pointer',
+    '&:hover': {
+        color: '#fb5200',
+    },
+    [theme.breakpoints.down('sm')]: {
+
+    }
+}));
+
 
 
 const CustomButtons = () => {
 
     const [open, setOpen] = useState(false);
     const { account, setAccount } = useContext(LoginContext);
+    const navigate = useNavigate()
 
-    const {count} = useSelector(state => state.cart?.cartItems);
-  
+    const { count } = useSelector(state => state.cart?.cartItems);
+
 
 
     const openDialog = () => {
         setOpen(true);
     }
+    const myOrders = () => {
+        navigate('/orders')
+    }
 
     return (
-        <Wrapper>
+        <Wrapper >
             {
                 account ? <Profile account={account} setAccount={setAccount} /> :
                     <LoginButton variant="contained" onClick={() => openDialog()}>Login</LoginButton>
 
             }
-            <Typography style={{ marginTop: 3, width: 135 }}>Become a Seller</Typography>
-            <Typography style={{ marginTop: 3 }}>More</Typography>
+            {
+                account && (
+                    <>
+                        <MyordersBox onClick={myOrders}>My Orders</MyordersBox>
+                    </>
+                )
+            }
+
 
             <Container to='/cart'>
                 <Badge badgeContent={count} color="secondary">

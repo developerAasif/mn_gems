@@ -6,7 +6,8 @@ var caritems = Session.getSession('cartItems') || {}
 
 var initialState = { 
     cartItems: caritems, 
-    shippingInfo:shippingInfo
+    shippingInfo:shippingInfo,
+    orders:[]
 }
 export const cartReducer = (state = initialState, action) => {
     switch(action.type) {
@@ -38,6 +39,12 @@ export const cartReducer = (state = initialState, action) => {
             return {
                 ...state, shippingInfo: action.payload
             }
+
+        case actionTypes.GET_ORDERS:
+            return {
+                ...state, orders: action.payload
+            }
+
         default:
             return state;
     }

@@ -11,6 +11,7 @@ import Search from './Search';
 import { GiCutDiamond } from "react-icons/gi";
 import { motion } from "framer-motion";
 import MobileSizeLogin from './MobileSizeLogin';
+import SideMenu from './SideMenu';
 
 const StyledHeader = styled(AppBar)`
     background: #1a0000;
@@ -83,15 +84,7 @@ const Header = () => {
         setOpen(true);
     }
 
-    const list = () => (
-        <Box style={{ width: 250 }} onClick={handleClose}>
-            <List>
-                <listItem button>
-                    <CustomButtons />
-                </listItem>
-            </List>
-        </Box>
-    );
+   
 
 
     return (
@@ -104,8 +97,8 @@ const Header = () => {
                     <Menu />
                 </MenuButton>
 
-                <Drawer open={open} onClose={handleClose}>
-                    {list()}
+                <Drawer open={open} onClose={handleClose} >
+                 <SideMenu handleClose={handleClose} />
                 </Drawer>
 
                 <Component to='/'>

@@ -99,7 +99,8 @@ const Image = styled('img')(({ theme }) => ({
 }));
 
 const ActionItem = ({ product }) => {
-    const user_id = Session.getSession('user_id');
+    const user = Session.getSession('auth');
+    var user_id = user?.id
     const navigate = useNavigate();
 
     const { id } = product;
@@ -117,7 +118,11 @@ const ActionItem = ({ product }) => {
     }
 
     const addItemToCart = async(product) => {
-     
+        console.log('add to cart calleddd')
+        if(!user){
+            toast.error('Please Login to Order Product!') 
+            return
+        }
             try {
                 var payload = {
                     "user_id":user_id,

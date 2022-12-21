@@ -14,7 +14,8 @@ const StyledButton = styled(Button)`
 `;
 
 const GroupedButton = ({item}) => {
-    const user_id = Session.getSession('user_id');
+    const user = Session.getSession('auth');
+    var user_id = user?.id
     const [ counter, setCounter ] = useState(1);
     const dispatch = useDispatch()
 
@@ -47,7 +48,7 @@ var check = item.qty < item?.product_detail?.stock;
 
     return (
         <Component>
-            <StyledButton onClick={() => handleDecrement()} disabled={item.qty == 0 }>-</StyledButton>
+            <StyledButton onClick={() => handleDecrement()} disabled={item.qty == 1 }>-</StyledButton>
             <Button disabled>{item?.qty}</Button>
             <StyledButton onClick={() => handleIncrement(item)} disabled={!check} >+</StyledButton>
         </Component>

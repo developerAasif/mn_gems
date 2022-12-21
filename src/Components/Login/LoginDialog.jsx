@@ -16,6 +16,7 @@ import './PhoneNumber.css'
 import Loader from '../Loader/Loader';
 import Session from '../../utils/session';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { getCart } from '../../redux/actions/cartActions';
 
 
 
@@ -163,17 +164,18 @@ const LoginDialog = ({ open, setOpen, setAccount }) => {
     const loginUser = async () => {
         setLoader(true)
         var data = {
-            "mobile":number,
-            "password":signup?.password
+            "mobile": number,
+            "password": signup?.password
         }
         const response = await dispatch(userLogin(data))
-        if (!response){
+        if (!response) {
             showError(true);
             Session.clearAllSession();
             setLoader(false)
         }
         else {
             Session.setSession('auth', response?.result[0])
+            dispatch(getCart(response?.result[0]?.id))
             setAccount(response?.result[0]?.name);
             showError(false);
             handleClose();

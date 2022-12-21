@@ -54,7 +54,8 @@ const StyledButton = styled(Button)`
 `;
 
 const Cart = () => {
-    const user_id = Session.getSession('user_id');
+    const user = Session.getSession('auth');
+    var user_id = user?.id
     const { loader } = useSelector(state => state?.loader);
     const { count, carts, total } = useSelector(state => state.cart?.cartItems);
 

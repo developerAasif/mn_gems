@@ -29,10 +29,8 @@ const Home = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        Session.setSession('user_id',10)
         dispatch({ type: LOADER, payload: true });
         dispatch(listProducts())
-        dispatch(getCart(786));
     }, [dispatch])
 
 

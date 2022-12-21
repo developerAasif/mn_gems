@@ -24,6 +24,15 @@ export const getViewAllReducer = (state = {viewAll: []}, action) => {
     }
 };
 
+export const searchReducer = (state = {search: []}, action) => {
+    switch(action.type) {
+        case actionTypes.SEARCH_PRODUCTS_SUCCESS:
+            return {search:action.payload}
+        default:
+            return state
+    }
+};
+
 export const getProductDetailsReducer = (state = { product: {}}, action) => {
     
     switch(action.type){

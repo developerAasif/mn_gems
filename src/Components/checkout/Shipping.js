@@ -59,7 +59,7 @@ const Shipping = ({ history }) => {
       {
         loader ? (<Loader />) : (
           <Fragment>
-            <h1>shippingg</h1>
+            {/* <h1>shippingg</h1> */}
             <MetaData title="Shipping Details" />
 
             <CheckoutSteps activeStep={0} />
