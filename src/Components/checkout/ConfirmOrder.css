@@ -20,13 +20,13 @@
 
 .confirmshippingAreaBox,
 .confirmCartItemsContainer {
-  margin: 2vmax;
+  margin: 0vmax;
  
 }
 
 .confirmshippingAreaBox > div {
   display: flex;
-  margin: 1vmax 0;
+  margin: 0 0;
   justify-content: start;
   align-items: center;
 }
@@ -113,7 +113,7 @@
 }
 
 .orderSummary > button {
-  background-color: tomato;
+  background-color: #8465e4;
   color: white;
   width: 100%;
   padding: 1vmax;
@@ -125,7 +125,7 @@
 }
 
 .orderSummary > button:hover {
-  background-color: rgb(192, 71, 50);
+  background-color: #744de7
 }
 
 @media screen and (max-width: 600px) {
@@ -145,7 +145,7 @@
 
   .confirmshippingAreaBox > div {
     display: flex;
-    margin: 6vw 0;
+    margin: 0vw 0;
   }
 
   .confirmshippingAreaBox > div > p {

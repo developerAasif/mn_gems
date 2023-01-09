@@ -46,7 +46,7 @@ const BottomWrapper = styled(Box)`
 const StyledButton = styled(Button)`
     display: flex;
     margin-left: auto;
-    background: #fb641b;
+    background: #8465e4;
     color: #fff;
     border-radius: 2px;
     width: 250px;

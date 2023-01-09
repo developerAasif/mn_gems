@@ -22,11 +22,23 @@ const Container = styled(Link)(({ theme }) => ({
         display: 'block'
     }
 }));
+const Pages = styled(Link)(({ theme }) => ({
+    display: 'flex',
+    // border:'1px solid white',
+    // borderRadius:'10%',
+    // padding:'5px 20px',
+   
+        '&:hover': {
+            // color:'blue'
+            // background: 'white',
+       
+    },
+}));
 
 const Wrapper = styled(Box)(({ theme }) => ({
     margin: '0 3% 0 auto',
     display: 'flex',
-    width:'100%',
+    width: '100%',
     '& > *': {
         marginRight: '40px !important',
         textDecoration: 'none',
@@ -68,10 +80,10 @@ const MyordersBox = styled(Typography)(({ theme }) => ({
     textTransform: 'none',
     color: '#fff',
     // height: '48px',
-    marginTop:5,
-    cursor:'pointer',
+    marginTop: 5,
+    cursor: 'pointer',
     '&:hover': {
-        color: '#fb5200',
+        // color: '#fb5200',
     },
     [theme.breakpoints.down('sm')]: {
 
@@ -99,17 +111,24 @@ const CustomButtons = () => {
 
     return (
         <Wrapper >
-            {
-                account ? <Profile account={account} setAccount={setAccount} /> :
-                    <LoginButton variant="contained" onClick={() => openDialog()}>Login</LoginButton>
 
-            }
+            <Pages to='/cms/about_us'> About Us</Pages>
+            <Pages to='/cms/term_condition'> T & C</Pages>
+            <Pages to='/cms/privacy_policy'> Policy</Pages>
+
+          
             {
                 account && (
                     <>
                         <MyordersBox onClick={myOrders}>My Orders</MyordersBox>
                     </>
                 )
+            }
+
+{
+                account ? <Profile account={account} setAccount={setAccount} /> :
+                    <LoginButton variant="contained" onClick={() => openDialog()}>Login</LoginButton>
+
             }
 
 

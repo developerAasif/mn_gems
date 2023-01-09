@@ -33,7 +33,7 @@ const ListItems = styled(Link)(({ theme }) => ({
 const Component = styled(Box)(({ theme }) => ({
     fontSize: '20px',
     fontStyle: 'italic',
-    background: 'black',
+    background: '#8465e4',
     // boxShadow:'2px 2px 5px gray',
     height: 60
 }));
@@ -48,12 +48,12 @@ const SubHeading = styled(Typography)(({ theme }) => ({
 }));
 
 const ContainerList = styled(Button)(({ theme }) => ({
-    background: '#FFFF',
-    color: '#2874f0',
-    border: '1px solid #f0f0f0',
+    background: '#8465e4',
+    color: 'white',
+    // border: '1px solid #f0f0f0',
     textTransform: 'none',
     fontWeight: 600,
-    borderRadius: 2,
+    // borderRadius: 2,
     // padding: '0px 40px',
     height: 50,
     // boxShadow: 'none',
@@ -61,6 +61,7 @@ const ContainerList = styled(Button)(({ theme }) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    padding:'30px 20px',
     '&:hover': {
         color: 'white',
     },
@@ -129,14 +130,15 @@ const SideMenu = ({ handleClose }) => {
         }
     }
     return (
-        <Box style={{ width: 200, }} onClick={handleClose}>
+        <Box style={{ width: 200,height:'100%', background:'#8465e4' }} onClick={handleClose}>
             <Component to='/' >
                 {/* <img src={logoUL} style={{ width: 75 }} /> */}
                 <motion.div initial={{ x: "-100%" }} whileInView={{ x: 0 }} style={{}}>
                     <Box component="span" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <GiCutDiamond style={{ fontSize: '3rem', color: 'blue', margin: '1px 13px', }} />
+                        {/* <GiCutDiamond style={{ fontSize: '3rem', color: 'blue', margin: '1px 13px', }} /> */}
+                        <img src="./logo.jfif" alt="" srcset=""  height={"50px"} width="50px" style={{borderRadius:'150%',margin: '1px 13px',}} />
                         <SubHeading>
-                            <Box component="span" style={{ color: '#FFE500', fontWeight: 600, fontSize: '18px' }}>
+                            <Box component="span" style={{ color: '#ffff', fontWeight: 600, fontSize: '18px' }}>
                                 MG-GEMS
                             </Box>
                         </SubHeading>
@@ -163,21 +165,21 @@ const SideMenu = ({ handleClose }) => {
 
 
                 <motion.div initial={{ y: "-100%", opacity: 0, }} whileInView={{ y: 0, opacity: 1, }} transition={{ delay: 0.5, }} >
-                    <ContainerList variant="contained" onClick={() => sideclick('/')} >
+                    <ContainerList variant="contained" onClick={() => sideclick('/cms/term_condition')} >
                         <LeftBox> <RiFileList2Line /> </LeftBox>
                         <RightBox> <Box >Terms & Con</Box> </RightBox>
                     </ContainerList>
                 </motion.div>
 
                 <motion.div initial={{ y: "-100%", opacity: 0, }} whileInView={{ y: 0, opacity: 1, }} transition={{ delay: 0.6, }}  >
-                    <ContainerList variant="contained" onClick={() => sideclick('/')} >
+                    <ContainerList variant="contained" onClick={() => sideclick('/cms/privacy_policy')} >
                         <LeftBox> <MdOutlinePolicy /> </LeftBox>
                         <RightBox> <Box >Privacy Policy</Box> </RightBox>
                     </ContainerList>
                 </motion.div>
 
                 <motion.div initial={{ y: "-100%", opacity: 0, }} whileInView={{ y: 0, opacity: 1, }} transition={{ delay: 0.7, }} >
-                    <ContainerList variant="contained" onClick={() => sideclick('/')} >
+                    <ContainerList variant="contained" onClick={() => sideclick('/cms/about_us')} >
                         <LeftBox> <FiUsers /> </LeftBox>
                         <RightBox> <Box >About Us</Box> </RightBox>
                     </ContainerList>

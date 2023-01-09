@@ -82,7 +82,7 @@ const MobileSizeLogin = () => {
             }
 
             <Container to='/cart'>
-                <Badge badgeContent={count} color="success" >
+                <Badge badgeContent={count} color="primary"  >
                     <ShoppingCart style={{fontSize:'30px', color:'white'}}/>
                 </Badge>
                 {/* <Typography style={{ marginLeft: 10 }}></Typography> */}

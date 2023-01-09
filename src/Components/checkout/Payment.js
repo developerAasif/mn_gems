@@ -27,15 +27,16 @@ import { LOADER } from "../../redux/constants/otherConstant";
 import Loader from '../Loader/Loader';
 import { GiSeaTurtle } from "react-icons/gi";
 import toast, { Toaster } from 'react-hot-toast';
+import Session from "../../utils/session";
 // import { createOrder, clearErrors } from "../../actions/orderAction";
 
 const Payment = ({ history }) => {
-
+  var user = Session.getSession('auth')
   const { loader } = useSelector(state => state?.loader);
   const { shippingInfo, cartItems } = useSelector((state) => state.cart);
   const orderInfo = JSON.parse(sessionStorage.getItem("orderInfo"));
   const [url, setUrl] = useState(false)
-  console.log('order infoo==>>>>>', orderInfo)
+  // console.log('order infoo==>>>>>', orderInfo)
 
   const dispatch = useDispatch();
 
@@ -65,7 +66,7 @@ const Payment = ({ history }) => {
     dispatch({ type: LOADER, payload: true });
 
     var payload = {
-      "customer_id": '',
+      "customer_id": user?.id,
       "address": address,
       "lat": "0.0",
       "long": "0.0",

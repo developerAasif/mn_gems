@@ -14,7 +14,7 @@ import MobileSizeLogin from './MobileSizeLogin';
 import SideMenu from './SideMenu';
 
 const StyledHeader = styled(AppBar)`
-    background: #1a0000;
+    background: red;
     height: 55px;
 `;
 
@@ -89,7 +89,7 @@ const Header = () => {
 
     return (
         <StyledHeader position="fixed" >
-            <Toolbar style={{ minHeight: 60, background:'black' }}>
+            <Toolbar style={{ minHeight: 60, background:'#8465e4' }}>
                 <MenuButton
                     color="inherit"
                     onClick={handleOpen}
@@ -105,10 +105,11 @@ const Header = () => {
                     {/* <img src={logoUL} style={{ width: 75 }} /> */}
                     <motion.div initial={{ x: "-100%" }} whileInView={{ x: 0 }} style={{  }}>
                         <Box component="span" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            <GiCutDiamond style={{ fontSize: '3rem', color: 'blue', margin: '1px 13px', }} />
+                            {/* <GiCutDiamond style={{ fontSize: '3rem', color: 'blue', margin: '1px 13px', }} /> */}
+                            <img src="./logo.jfif" alt="" srcset=""  height={"40px"} width="40px" style={{borderRadius:'150%',margin: '1px 5px',}} />
                             <SubHeading>
-                                <Box component="span" style={{ color: '#FFE500' }}>
-                                    MG-GEMS
+                                <Box component="span" style={{ color: '#fffff',fontWeight:600, fontSize:12 }}>
+                                    MN-GEMS
                                 </Box>
                             </SubHeading>
                         </Box>

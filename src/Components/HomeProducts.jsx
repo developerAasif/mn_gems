@@ -57,7 +57,7 @@ const Timer = styled(Box)`
 
 const ViewAllButton = styled(Button)(({ theme }) => ({
     marginLeft: 'auto',
-    backgroundColor: '#2874f0',
+    backgroundColor: '#8465e4',
     borderRadius: '2px',
     fontSize: '13px',
     [theme.breakpoints.down('sm')]: {
@@ -149,10 +149,10 @@ const Rating = styled(Box)(({ theme }) => ({
 const HomeProducts = ({ products, title }) => {
 
     const navigate = useNavigate()
-    const viewAll = () =>{
-        navigate('/view-all',{state:{path:title}})
+    const viewAll = () => {
+        navigate('/view-all', { state: { path: title } })
     }
-    
+
     return (
         <Component>
             <Deal>
@@ -174,16 +174,19 @@ const HomeProducts = ({ products, title }) => {
                                 </TextBox>
                                 <TextBox>
                                     <TextLeft> <Text style={{ color: 'gray', fontSize: '12px' }}> Qty:</Text> </TextLeft>
-                                    <TextRight> <Text style={{ color: 'blue', }}> {item?.stock}</Text> </TextRight>
+                                    {
+                                        item?.stock > 0 ? ( <TextRight> <Text style={{ color: 'blue', }}> {item?.stock}</Text> </TextRight> ) : (<TextRight> <Text style={{ color: 'red', }}>out of stock</Text> </TextRight>)
+                                    }
+
                                 </TextBox>
                                 <TextBox>
                                     <TextLeft> <Text style={{ color: 'gray', fontSize: '12px' }}> Rating:</Text> </TextLeft>
-                                    <TextRight> <Text style={{ color: '#212121', opacity: '.6' }}> {item?.avg_rating}</Text> </TextRight>
+                                    <TextRight> <Text style={{ color: '#212121', opacity: '.6' }}> {Number(item?.avg_rating)?.toFixed(1)}</Text> </TextRight>
                                 </TextBox>
                                 <Rating >
                                     <StarRatings
-                                     starDimension="20px"
-                                     starSpacing="5px"
+                                        starDimension="20px"
+                                        starSpacing="5px"
                                         rating={Number(item?.avg_rating) || 0}
                                         starRatedColor="blue"
                                         // changeRating={this.changeRating}

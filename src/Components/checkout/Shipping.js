@@ -62,7 +62,9 @@ const Shipping = ({ history }) => {
             {/* <h1>shippingg</h1> */}
             <MetaData title="Shipping Details" />
 
-            <CheckoutSteps activeStep={0} />
+          <div >
+          <CheckoutSteps activeStep={0} />
+          </div>
 
             <div className="shippingContainer">
               <div className="shippingBox">

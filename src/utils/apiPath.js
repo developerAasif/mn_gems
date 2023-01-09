@@ -23,4 +23,5 @@ export default {
     changePassword : base_url + "/customer/change-password",
 
     searcgProducts : base_url + "/search",
+    staticPage : base_url + "/get_cms",
 }

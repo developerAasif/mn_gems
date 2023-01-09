@@ -89,11 +89,13 @@ const Search = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+   if(text){
     var data = {
       "search_type": "product",
       "query": text
     }
     dispatch(searchProducts(data))
+   }
   }, [text])
 
   return (

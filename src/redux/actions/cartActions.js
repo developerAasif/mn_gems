@@ -9,12 +9,15 @@ import Session from '../../utils/session';
 const user = Session.getSession('auth');
 var user_id = user?.id;
 
+
 export const saveShippingInfo = (data) => async (dispatch) => {
+    var user = Session.getSession('auth');
+    // console.log('save shiping info here==>>>>>>>>>>>>>',user);
     try {
         const address = `${data.address}, ${data.city}, ${data.state}, ${data.pinCode}, ${data.country}`;
 
         var payload = {
-            "user_id": user_id,
+            "user_id": user?.id,
             "lat": "0",
             "long": "0'",
             "contact_name": data?.name,
@@ -93,8 +96,8 @@ export const removeFromCart = (id) => async (dispatch) => {
 
 export const orderPlace = (data) => async (dispatch, getState) => {
     try {
-
-        data.customer_id = user_id
+        console.log('user==>>>>>>>',data);
+        // data.customer_id = user_id
         var url = apiPath.placeOrder;
         const res = await helper.api(url, "post", data);
         if (data?.status == 200) {

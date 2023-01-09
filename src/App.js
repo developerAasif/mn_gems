@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Box } from '@mui/material'
 
+import "./App.css";
+
 // project imports
 import { Home, NotFound } from './Components/default';
 
@@ -25,6 +27,7 @@ import Session from './utils/session';
 import { getCart } from './redux/actions/cartActions';
 import ProtectedRoute from './firebase/ProtectedRoute';
 import OrderTrack from './Components/myOrders/OrderTrack';
+import StaicCms from './Components/static/Cms';
 
 
 
@@ -54,17 +57,18 @@ function App() {
               <Route path='/' element={<Home />} />
               <Route path='/view-all' element={<ViewAll />} />
               <Route path='/cart' element={<Cart />} />
+              <Route path='/product/:id' element={<DetailView />} />
+              <Route path='/cms/:name' element={<StaicCms />} />
 
               {/* <Route path='/' element={<ProtectedRoute />} > */}
 
               <Route path='/shipping' element={<ProtectedRoute Children={Shipping} />} />
               <Route path='/order/confirm' element={<ProtectedRoute Children={ConfirmOrder} />} />
+              <Route path='/order/details' element={<ProtectedRoute Children={OrderDetails} />} />
               <Route path='/process/payment' element={<ProtectedRoute Children={Payment} />} />
               <Route path='/order/success' element={<ProtectedRoute Children={OrderSuccess} />} />
               <Route path='/orders' element={<ProtectedRoute Children={MyOrders} />} />
-              <Route path='/order/details' element={<ProtectedRoute Children={OrderDetails} />} />
               <Route path='/order/track' element={<ProtectedRoute Children={OrderTrack} />} />
-              <Route path='/product/:id' element={<ProtectedRoute Children={DetailView} />} />
 
               {/* </ Route> */}
 

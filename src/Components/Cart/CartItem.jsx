@@ -39,6 +39,7 @@ const Discount = styled(Typography)`
 const Remove = styled(Button)`
     margin-top: 20px;
     font-size: 16px;
+    color: #8465e4;
 `;
 
 const CartItem = ({ item, removeItemFromCart }) => {

@@ -34,10 +34,11 @@ const OrderTrack = () => {
     const location = useLocation();
 
     var data = location?.state;
+    // data = data + "&embedded=true";
 
 
 
-
+    window.open(data,'_blank');
     console.log('order detail datadatadata s==>>>>>', data)
 
 
@@ -46,15 +47,16 @@ const OrderTrack = () => {
 
 
         <>
-            {loader === false ? (
+            {/* {loader === false ? (
                 <IFRAME className="orderDetails">
                     {
-                        data && <iframe src={data} height='100%' width='100%'  />
+                        // data && <iframe src={data} height='100%' width='100%' sandbox="allow-same-origin"   />
+                        <iframe src={data} width="340" height="500"  frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
                     }
                 </IFRAME>
             ) : (
                 <Loader />
-            )}
+            )} */}
         </>
 
     );

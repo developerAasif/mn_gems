@@ -9,9 +9,27 @@ const Component = styled(ButtonGroup)`
     margin-top: 30px;
 `;
 
-const StyledButton = styled(Button)`
-    border-radius: 50%;
-`;
+// const StyledButton = styled(Button)`
+//     border-radius: 50%;
+//     background-color:#8465e4;
+//     color:#ffff
+// `;
+
+
+const StyledButton = styled(Button)(({ theme }) => ({
+    borderRadius: '50%',
+    // backgroundColor:'#8465e4',
+    color:'#8465e4',
+   
+        // '&:hover': {
+        //     backgroundColor: '#8465e4',
+        // },
+   
+
+    [theme.breakpoints.down('sm')]: {
+        display: 'block'
+    }
+}));
 
 const GroupedButton = ({item}) => {
     const user = Session.getSession('auth');
@@ -49,7 +67,7 @@ var check = item.qty < item?.product_detail?.stock;
     return (
         <Component>
             <StyledButton onClick={() => handleDecrement()} disabled={item.qty == 1 }>-</StyledButton>
-            <Button disabled>{item?.qty}</Button>
+            <Button style={{color:'#8465e4', fontWeight:600}} disabled>{item?.qty}</Button>
             <StyledButton onClick={() => handleIncrement(item)} disabled={!check} >+</StyledButton>
         </Component>
     );

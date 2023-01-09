@@ -190,58 +190,61 @@ const ViewAll = () => {
             {
                 loader ? (<Loader />) : (
                     <Component>
-                    <Deal>
-                        <ViewAllButton variant="contained" color="primary" onClick={() => navigate('/')}><BiArrowBack /></ViewAllButton>
-                        <DealText>{['Products', 'category'].includes(location?.state?.path) ? 'All Products' : 'All Popular Products'}</DealText>
-                    </Deal>
-                    <Divider />
-                    <HomeContainer>
-                        {
-                            viewAll && viewAll.length > 0 && viewAll.map((item, i) => (
-                                <Product textAlign="center" key={i} >
-                                    {/* {item?.avg_rating == '0.0' && (item.avg_rating = 1)} */}
-                                    <Link to={`../product/${item?.id}`} style={{ textDecoration: 'none', }} >
-                                        <Image src={item?.images[0]?.image} />
-                                        <Text style={{ fontWeight: 600, color: '#212121' }}>{item?.name}</Text>
-                                        <TextBox>
-                                            <TextLeft> <Text style={{ color: 'gray', fontSize: '12px' }}> Price:</Text> </TextLeft>
-                                            <TextRight> <Text style={{ color: 'green' }}> ${item?.price}</Text> </TextRight>
-                                        </TextBox>
-                                        <TextBox>
-                                            <TextLeft> <Text style={{ color: 'gray', fontSize: '12px' }}> Qty:</Text> </TextLeft>
-                                            <TextRight> <Text style={{ color: 'blue', }}> {item?.stock}</Text> </TextRight>
-                                        </TextBox>
-                                        <TextBox>
-                                            <TextLeft> <Text style={{ color: 'gray', fontSize: '12px' }}> Rating:</Text> </TextLeft>
-                                            <TextRight> <Text style={{ color: '#212121', opacity: '.6' }}> {item?.avg_rating}</Text> </TextRight>
-                                        </TextBox>
-                                        <Rating >
-                                            <StarRatings
-                                                starDimension="20px"
-                                                starSpacing="5px"
-                                                rating={Number(item?.avg_rating) || 0}
-                                                starRatedColor="blue"
-                                                // changeRating={this.changeRating}
-                                                numberOfStars={5}
-                                                name='rating'
-                                            />
-                                        </Rating>
+                        <Deal>
+                            <ViewAllButton variant="contained" color="primary" style={{ background: '#8465e4' }} onClick={() => navigate('/')}><BiArrowBack /></ViewAllButton>
+                            <DealText>{['Products', 'category'].includes(location?.state?.path) ? 'All Products' : 'All Popular Products'}</DealText>
+                        </Deal>
+                        <Divider />
+                        <HomeContainer>
+                            {
+                                viewAll && viewAll.length > 0 && viewAll.map((item, i) => (
+                                    <Product textAlign="center" key={i} >
+                                        {/* {item?.avg_rating == '0.0' && (item.avg_rating = 1)} */}
+                                        <Link to={`../product/${item?.id}`} style={{ textDecoration: 'none', }} >
+                                            <Image src={item?.images[0]?.image} />
+                                            <Text style={{ fontWeight: 600, color: '#212121' }}>{item?.name}</Text>
+                                            <TextBox>
+                                                <TextLeft> <Text style={{ color: 'gray', fontSize: '12px' }}> Price:</Text> </TextLeft>
+                                                <TextRight> <Text style={{ color: 'green' }}> ${item?.price}</Text> </TextRight>
+                                            </TextBox>
+                                            <TextBox>
+                                                <TextLeft> <Text style={{ color: 'gray', fontSize: '12px' }}> Qty:</Text> </TextLeft>
+                                                {
+                                                    item?.stock > 0 ? (<TextRight> <Text style={{ color: 'blue', }}> {item?.stock}</Text> </TextRight>) : (<TextRight> <Text style={{ color: 'red', }}>out of stock</Text> </TextRight>)
+                                                }
 
-                                    </Link>
-                                </Product>
-                            ))
-                        }
-                    </HomeContainer>
-                    <PaginationContainer>
-                        <Stack spacing={2} >
-                            <Pagination count={totalPage} color="primary" page={page} onChange={handleChange} />
-                        </Stack>
-                    </PaginationContainer>
+                                            </TextBox>
+                                            <TextBox>
+                                                <TextLeft> <Text style={{ color: 'gray', fontSize: '12px' }}> Rating:</Text> </TextLeft>
+                                                <TextRight> <Text style={{ color: '#212121', opacity: '.6' }}> {Number(item?.avg_rating).toFixed(1)}</Text> </TextRight>
+                                            </TextBox>
+                                            <Rating >
+                                                <StarRatings
+                                                    starDimension="20px"
+                                                    starSpacing="5px"
+                                                    rating={Number(item?.avg_rating) || 0}
+                                                    starRatedColor="blue"
+                                                    // changeRating={this.changeRating}
+                                                    numberOfStars={5}
+                                                    name='rating'
+                                                />
+                                            </Rating>
 
-                </Component>
+                                        </Link>
+                                    </Product>
+                                ))
+                            }
+                        </HomeContainer>
+                        <PaginationContainer>
+                            <Stack spacing={2} >
+                                <Pagination count={totalPage} color="primary" page={page} onChange={handleChange} />
+                            </Stack>
+                        </PaginationContainer>
+
+                    </Component>
                 )
             }
-           
+
 
         </>
     )

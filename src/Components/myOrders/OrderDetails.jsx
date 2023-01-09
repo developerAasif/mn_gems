@@ -44,7 +44,8 @@ const OrderDetails = () => {
 
 
   const trackOrder = (trak_link) =>{
-    navigate('/order/track',{state:trak_link})
+    window.open(trak_link,'_blank');
+    // navigate('/order/track',{state:trak_link})
   }
 
   const payment = async (e) => {

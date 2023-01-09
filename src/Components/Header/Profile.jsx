@@ -2,13 +2,15 @@ import { useState } from 'react';
 
 import { Link, useNavigate } from 'react-router-dom';
 import { Typography, Menu, MenuItem, Box, styled, Dialog, DialogContent, CircularProgress, Button, TextField } from '@mui/material';
-import { PowerSettingsNew, LockClockOutlined } from '@mui/icons-material';
+import { PowerSettingsNew, LockClockOutlined, Person } from '@mui/icons-material'; 
 import Session from '../../utils/session';
 import { useUserAuth } from "../../firebase/userContextAuth";
 import { useDispatch } from 'react-redux';
 import { LOADER } from '../../redux/constants/otherConstant';
 import { changePassword } from '../../redux/actions/authAction';
 import { getCart } from '../../redux/actions/cartActions';
+import { BiUserCircle } from "react-icons/bi";
+
 
 const Component = styled(Menu)`
     margin-top: 5px;
@@ -38,24 +40,33 @@ const LoginButton = styled(Button)(({ theme }) => ({
 const ProfileBox = styled(Typography)(({ theme }) => ({
     textTransform: 'none',
     // background: '#FB641B',
-    boxShadow: '1px 1px 5px white',
-    padding: '5px 10px',
+    // boxShadow: '1px 1px 5px white',
+    // padding: '5px 10px',
     color: '#fff',
     // height: '48px',
-    borderRadius: '10px',
+    // borderRadius: '10px',
+    display:'flex',
+    cursor:'pointer',
+    fontSize:'20px',
+    fontWeight:600,
     '&:hover': {
-        color: '#fb5200',
+        // color: '#fb5200',
     },
     [theme.breakpoints.down('sm')]: {
         // boxShadow: 'none',
+        padding: 0,
     }
 }));
 const AccountText = styled(Typography)(({ theme }) => ({
-    marginTop: 2,
+    // marginTop: 2,
+    // marginLeft:2,
     cursor: 'pointer',
+    fontSize:'20px',
+    fontWeight:600,
     [theme.breakpoints.down('sm')]: {
-        padding: 10,
-        fontSize: '10px',
+        // padding: 10,
+        fontSize:'15px',
+        fontWeight:600,
     }
 }));
 
@@ -155,12 +166,20 @@ const Profile = ({ account, setAccount }) => {
 
     return (
         <>
-            <ProfileBox onClick={handleClick}><AccountText >{account}</AccountText></ProfileBox>
+            <ProfileBox onClick={handleClick}>
+                <BiUserCircle style={{ fontSize: '2rem', color: 'white', }} />
+                {/* <AccountText >{account}</AccountText> */}
+            </ProfileBox>
             <Component
                 anchorEl={open}
                 open={Boolean(open)}
                 onClose={handleClose}
             >
+                <MenuItem>
+                <Person fontSize='small' color='primary' />
+                    <Logout>{account}</Logout>
+                    
+                </MenuItem>
                 <MenuItem onClick={() => { setOpenForgot(!openForgot) }}>
                     <LockClockOutlined fontSize='small' color='primary' />
                     <Logout>Change Password</Logout>

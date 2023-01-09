@@ -61,8 +61,8 @@ const Product = styled(Box)(({ theme }) => ({
     // border: '1px solid gray',
     borderRadius: '10px',
     boxShadow: '2px 2px 10px gray',
-    width: '100%',
-    height: '100%',
+    width: '40%',
+    height: '50%',
     [theme.breakpoints.down('lg')]: {
         width: '100%',
     },

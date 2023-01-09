@@ -204,10 +204,12 @@ const LoginDialog = ({ open, setOpen, setAccount }) => {
         if (isErrors) {
             toast.error(isErrors)
             showError(isErrors)
+            setLoader(false)
             return
         }
         if (!signup?.name || !signup.password) {
             showError('required all fields')
+            setLoader(false)
             return
         }
         try {
@@ -222,10 +224,12 @@ const LoginDialog = ({ open, setOpen, setAccount }) => {
             const response = await setUpRecaptha(number);
             setResult(response);
             toggleAccount(accountInitialValues.otp);
+            setLoader(false)
             console.log('response ==>>>>>>>', response);
         } catch (err) {
             toast.error(err?.message)
             showError(err.message);
+            setLoader(false)
         }
         setLoader(false)
     };
@@ -259,6 +263,7 @@ const LoginDialog = ({ open, setOpen, setAccount }) => {
             setLoader(false)
             showError(err.message);
         }
+        setLoader(false)
         // dispatch(register(signup))
         // let response = await authenticateSignup(signup);
         // if (!response) return;

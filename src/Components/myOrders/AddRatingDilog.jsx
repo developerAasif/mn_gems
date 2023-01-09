@@ -148,7 +148,7 @@ const AddRating = ({ open, setOpen }) => {
                             <StarRatings
                                 starDimension="35px"
                                 starSpacing="5px"
-                                rating={0}
+                                rating={rating}
                                 starRatedColor="blue"
                                 changeRating={changeRating}
                                 numberOfStars={5}

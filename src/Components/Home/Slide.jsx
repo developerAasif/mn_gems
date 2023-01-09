@@ -55,7 +55,7 @@ const Timer = styled(Box)`
 
 const ViewAllButton = styled(Button)(({ theme }) => ({
     marginLeft: 'auto',
-    backgroundColor: '#2874f0',
+    backgroundColor: '#8465e4',
     borderRadius: '2px',
     fontSize: '13px',
     [theme.breakpoints.down('sm')]: {
@@ -142,7 +142,7 @@ const MultiSlide = ({ data, timer, title }) => {
                             <CardBox>
                                 <Image src={item?.images[0]?.image} />
                                 <Text style={{ fontWeight: 600, color: '#212121' }}>{item?.name}</Text>
-                                <Text style={{ color: 'green' }}>{item?.price}</Text>
+                                <Text style={{ color: 'green' }}>${item?.price}</Text>
                                 <Text style={{ color: '#212121', opacity: '.6' }}>{item?.size}</Text>
                             </CardBox>
                         </Link>
