@@ -42,7 +42,10 @@ const ProductDetail = ({ product }) => {
                     </ColumnText>
                     <ColumnText>
                         <TableCell style={{ color: '#878787' }}>Stock</TableCell>
-                        <TableCell>{product?.stock}</TableCell>
+                        {/* <TableCell>{product?.stock}</TableCell> */}
+                        {
+                            product?.stock > 0 ? ( <TableCell>{product?.stock}</TableCell>) : ( <TableCell style={{color:'red'}}>out of stock</TableCell>)
+                        }
                     </ColumnText>
                     <ColumnText>
                         <TableCell style={{ color: '#878787' }}>Size</TableCell>
@@ -51,16 +54,16 @@ const ProductDetail = ({ product }) => {
                     <ColumnText>
                         <TableCell style={{ color: '#878787' }}>Ratings</TableCell>
                         <TableCell style={{ color: '#878787' }}>
-                        <StarRatings
-                            starDimension="20px"
-                            starSpacing="5px"
-                            rating={Number(product?.avg_rating) || 0}
-                            starRatedColor="blue"
-                            // changeRating={this.changeRating}
-                            numberOfStars={5}
-                            name='rating'
-                        />
-                        <span style={{marginLeft:5}}>({product?.avg_rating})</span>
+                            <StarRatings
+                                starDimension="20px"
+                                starSpacing="5px"
+                                rating={Number(product?.avg_rating) || 0}
+                                starRatedColor="blue"
+                                // changeRating={this.changeRating}
+                                numberOfStars={5}
+                                name='rating'
+                            />
+                            <span style={{ marginLeft: 5 }}>({Number(product?.avg_rating)?.toFixed(1)})</span>
                         </TableCell>
 
                     </ColumnText>

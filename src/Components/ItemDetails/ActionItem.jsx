@@ -183,7 +183,8 @@ const ActionItem = ({ product }) => {
             <br />
 
             <StyledButtonContainer>
-            <StyledButton onClick={() => addItemToCart(product)} style={{ marginRight: 10, background: '#8465e4', color:'#ffff', fontWeight:600 }} variant="contained" disabled={product?.stock == 0 && true} ><Cart />Add to Cart</StyledButton>
+            {/* <StyledButton onClick={() => addItemToCart(product)} style={{ marginRight: 10, background: '#8465e4', color:'#ffff', fontWeight:600 }} variant="contained" disabled={product?.stock == 0 && true} ><Cart />Add to Cart</StyledButton> */}
+            <StyledButton onClick={() => addItemToCart(product)} style={{ marginRight: 10, background: '#8465e4', color: product?.stock == 0 ? 'red' : '#ffff', fontWeight:600 }} variant="contained" disabled={product?.stock == 0 && true} ><Cart />{product?.stock == 0 ? 'Out of Stock' : 'Add to Cart'}</StyledButton>
             </StyledButtonContainer>
             {/* <StyledButton onClick={() => buyNow()} style={{ background: '#fb641b' }} variant="contained"><Flash /> Buy Now</StyledButton> */}
         </LeftContainer>
