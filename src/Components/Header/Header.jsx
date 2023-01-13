@@ -106,7 +106,7 @@ const Header = () => {
                     <motion.div initial={{ x: "-100%" }} whileInView={{ x: 0 }} style={{  }}>
                         <Box component="span" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                             {/* <GiCutDiamond style={{ fontSize: '3rem', color: 'blue', margin: '1px 13px', }} /> */}
-                            <img src="./logo.jfif" alt="" srcset=""  height={"40px"} width="40px" style={{borderRadius:'150%',margin: '1px 5px',}} />
+                            <img src="./logo.jpg" alt="" srcset=""  height={"40px"} width="40px" style={{borderRadius:'150%',margin: '1px 5px',}} />
                             <SubHeading>
                                 <Box component="span" style={{ color: '#fffff',fontWeight:600, fontSize:12 }}>
                                     MN-GEMS

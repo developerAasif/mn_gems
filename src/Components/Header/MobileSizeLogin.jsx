@@ -21,11 +21,11 @@ const Container = styled(Link)(({ theme }) => ({
 const Wrapper = styled(Box)(({ theme }) => ({
     // margin: '0 3% 0 auto',
     display: 'flex',
-    justifyContent:'flex-end',
-    alignItems:'center',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
     // width:'100%',
     '& > *': {
-       
+
         textDecoration: 'none',
         color: '#FFFFFF',
         fontSize: 12,
@@ -35,10 +35,10 @@ const Wrapper = styled(Box)(({ theme }) => ({
             alignItems: 'center',
             display: 'flex',
             flexDirection: 'column',
-            justifyContent:'center',
-            alignItems:'center',
+            justifyContent: 'center',
+            alignItems: 'center',
             margin: 0,
-            padding:0,
+            padding: 0,
         }
     },
     [theme.breakpoints.down('sm')]: {
@@ -56,8 +56,13 @@ const LoginButton = styled(Button)(({ theme }) => ({
     height: 32,
     boxShadow: 'none',
     [theme.breakpoints.down('sm')]: {
-        background: 'red',
-        color: '#FFFFFF'
+        background: '#ffff',
+        color: '#2874f0',
+        '&:hover': {
+            background: 'none',
+            border:'1px solid white',
+            color:'white'
+        },
     }
 }));
 
@@ -67,7 +72,7 @@ const MobileSizeLogin = () => {
     const [open, setOpen] = useState(false);
     const { account, setAccount } = useContext(LoginContext);
 
-    const {count} = useSelector(state => state.cart?.cartItems);
+    const { count } = useSelector(state => state.cart?.cartItems);
 
     const openDialog = () => {
         setOpen(true);
@@ -83,7 +88,7 @@ const MobileSizeLogin = () => {
 
             <Container to='/cart'>
                 <Badge badgeContent={count} color="primary"  >
-                    <ShoppingCart style={{fontSize:'30px', color:'white'}}/>
+                    <ShoppingCart style={{ fontSize: '30px', color: 'white' }} />
                 </Badge>
                 {/* <Typography style={{ marginLeft: 10 }}></Typography> */}
             </Container>

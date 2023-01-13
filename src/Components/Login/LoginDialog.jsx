@@ -33,15 +33,16 @@ const Component = styled(DialogContent)(({ theme }) => ({
 
 const LoginButton = styled(Button)(({ theme }) => ({
     textTransform: 'none',
-    background: '#FB641B',
-    color: '#fff',
+    background: '#8465e4',
+    color: '#fffF',
     height: '48px',
     borderRadius: '2px',
+    fontWeight:600,
     '&:hover': {
-        background: '#fb5200',
+        background: '#6b40f1',
     },
     [theme.breakpoints.down('sm')]: {
-
+        background: '#8465e4',
     }
 }));
 

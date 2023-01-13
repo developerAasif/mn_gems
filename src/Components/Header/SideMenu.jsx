@@ -134,12 +134,12 @@ const SideMenu = ({ handleClose }) => {
             <Component to='/' >
                 {/* <img src={logoUL} style={{ width: 75 }} /> */}
                 <motion.div initial={{ x: "-100%" }} whileInView={{ x: 0 }} style={{}}>
-                    <Box component="span" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <Box component="span" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop:10 }}>
                         {/* <GiCutDiamond style={{ fontSize: '3rem', color: 'blue', margin: '1px 13px', }} /> */}
-                        <img src="./logo.jfif" alt="" srcset=""  height={"50px"} width="50px" style={{borderRadius:'150%',margin: '1px 13px',}} />
+                        <img src="./logo.jpg" alt="" srcset=""  height={"50px"} width="50px" style={{borderRadius:'150%',margin: '1px 13px',}} />
                         <SubHeading>
                             <Box component="span" style={{ color: '#ffff', fontWeight: 600, fontSize: '18px' }}>
-                                MG-GEMS
+                                MN-GEMS
                             </Box>
                         </SubHeading>
                     </Box>
